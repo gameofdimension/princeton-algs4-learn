@@ -56,10 +56,10 @@ public class Percolation {
     sites[row][col] = 1;
     openNum += 1;
 
-    connectNeighbor(row, col);
+    connectNeighbors(row, col);
   }
 
-  private void connectNeighbor(int row, int col) {
+  private void connectNeighbors(int row, int col) {
     if (row == 1) {
       uf.union(upNode, index(row, col));
     }
@@ -68,27 +68,13 @@ public class Percolation {
       uf.union(downNode, index(row, col));
     }
 
-    int nrow = row - 1;
-    int ncol = col;
+    connectNeighbor(row, col, row + 1, col);
+    connectNeighbor(row, col, row - 1, col);
+    connectNeighbor(row, col, row, col + 1);
+    connectNeighbor(row, col, row, col - 1);
+  }
 
-    if (legalSite(nrow, ncol) && isOpen(nrow, ncol)) {
-      uf.union(index(row, col), index(nrow, ncol));
-    }
-
-    nrow = row;
-    ncol = col - 1;
-    if (legalSite(nrow, ncol) && isOpen(nrow, ncol)) {
-      uf.union(index(row, col), index(nrow, ncol));
-    }
-
-    nrow = row;
-    ncol = col + 1;
-    if (legalSite(nrow, ncol) && isOpen(nrow, ncol)) {
-      uf.union(index(row, col), index(nrow, ncol));
-    }
-
-    nrow = row + 1;
-    ncol = col;
+  private void connectNeighbor(int row, int col, int nrow, int ncol) {
     if (legalSite(nrow, ncol) && isOpen(nrow, ncol)) {
       uf.union(index(row, col), index(nrow, ncol));
     }
@@ -108,7 +94,7 @@ public class Percolation {
       throw new IllegalArgumentException("wrong row or col");
     }
 
-    return uf.connected(index(row, col), upNode);
+    return isOpen(row, col) && uf.connected(index(row, col), upNode);
   }
 
   // returns the number of open sites
