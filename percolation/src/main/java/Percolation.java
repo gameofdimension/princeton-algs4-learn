@@ -16,7 +16,10 @@ public class Percolation {
   private final int upNode;
   private final int downNode;
 
-  private final WeightedQuickUnionUF uf;
+  private final WeightedQuickUnionUF ufu;
+  private final WeightedQuickUnionUF ufd;
+
+  private boolean isPercolates = false;
 
   // creates n-by-n grid, with all sites initially blocked
   public Percolation(int n) {
@@ -27,8 +30,9 @@ public class Percolation {
     this.openNum = 0;
     this.sites = new byte[n + 1][n + 1];
     this.upNode = n * n;
-    this.downNode = n * n + 1;
-    this.uf = new WeightedQuickUnionUF(n * n + 2);
+    this.downNode = n * n;
+    this.ufu = new WeightedQuickUnionUF(n * n + 1);
+    this.ufd = new WeightedQuickUnionUF(n * n + 1);
   }
 
   private boolean legalSite(int row, int col) {
@@ -57,15 +61,19 @@ public class Percolation {
     openNum += 1;
 
     connectNeighbors(row, col);
+    if (!isPercolates && ufu.connected(index(row, col), upNode) && ufd
+        .connected(index(row, col), downNode)) {
+      isPercolates = true;
+    }
   }
 
   private void connectNeighbors(int row, int col) {
     if (row == 1) {
-      uf.union(upNode, index(row, col));
+      ufu.union(upNode, index(row, col));
     }
 
-    if (row == n && !percolates()) {
-      uf.union(downNode, index(row, col));
+    if (row == n) {
+      ufd.union(downNode, index(row, col));
     }
 
     connectNeighbor(row, col, row + 1, col);
@@ -76,7 +84,8 @@ public class Percolation {
 
   private void connectNeighbor(int row, int col, int nrow, int ncol) {
     if (legalSite(nrow, ncol) && isOpen(nrow, ncol)) {
-      uf.union(index(row, col), index(nrow, ncol));
+      ufu.union(index(row, col), index(nrow, ncol));
+      ufd.union(index(row, col), index(nrow, ncol));
     }
   }
 
@@ -94,7 +103,7 @@ public class Percolation {
       throw new IllegalArgumentException("wrong row or col");
     }
 
-    return isOpen(row, col) && uf.connected(index(row, col), upNode);
+    return isOpen(row, col) && ufu.connected(index(row, col), upNode);
   }
 
   // returns the number of open sites
@@ -104,7 +113,7 @@ public class Percolation {
 
   // does the system percolate?
   public boolean percolates() {
-    return uf.connected(upNode, downNode);
+    return isPercolates;
   }
 
   // test client (optional)
