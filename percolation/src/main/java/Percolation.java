@@ -64,7 +64,7 @@ public class Percolation {
       uf.union(upNode, index(row, col));
     }
 
-    if (row == n) {
+    if (row == n && !percolates()) {
       uf.union(downNode, index(row, col));
     }
 
