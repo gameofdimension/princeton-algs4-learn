@@ -11,6 +11,7 @@
   <modules>
     <module>demo</module>
     <module>percolation</module>
+    <module>queues</module>
   </modules>
 
   <dependencies>
