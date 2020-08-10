@@ -12,6 +12,7 @@
     <module>demo</module>
     <module>percolation</module>
     <module>queues</module>
+    <module>collinear-points</module>
   </modules>
 
   <dependencies>
