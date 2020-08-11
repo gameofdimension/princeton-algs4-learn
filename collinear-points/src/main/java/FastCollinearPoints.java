@@ -51,6 +51,21 @@ public class FastCollinearPoints {
     result = computeSegments();
   }   // finds all line segments containing 4 or more points
 
+  /**
+   * 按照 spec 上的思路，有一个很重要的问题是去重。k 点共线的直线可能会被加入 k 次。
+   * 普遍的去重思路有两种：
+   * 一是在结果集新增过程中去重，即发现是重复的则不加入。
+   * 二是最后整体sort and unique 去重。
+   * 但是根据 faq 中的最后部分，n 个点的集合大于 4 个点共线的 unique 直线数至少有 O(n^2) 规模，
+   * 于是思路二内存使用会超标。思路一简单的 for loop 查重，单次耗时是线性 O(n^2) 的，肯定时间性能会超标。
+   * 如果使用高效的平衡树存储新增直线，单次查重以及插入的性能是 O(log(n^2)) ,看起来是满足要求的，但是这类
+   * 高级数据结构相对于本节课显然是超纲了的。
+   *
+   * Coursera 课程 forum 上有人给出了非常有洞见的解决方法。核心是观察到在 k 点共线时，以不同的点作为 origin ，
+   * 虽然会得到 k 个相同的结果，这是这 k 种结果是可以区分的，区分的方法则是观察作为 origin 的点在直线上的相对
+   * 位置，是第一个点还是其他位置。这种位置关系可以用排序的方法确定。
+   * @return list
+   */
   private List<LineSegment> computeSegments() {
     List<LineSegment> tmp = new ArrayList<LineSegment>();
     if (points.length < 4) {
