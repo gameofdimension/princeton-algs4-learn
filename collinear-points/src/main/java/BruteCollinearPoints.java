@@ -76,7 +76,7 @@ public class BruteCollinearPoints {
     return result.toArray(new LineSegment[0]);
   }            // the line segments
 
-  static boolean hasDuplicate(Point[] points) {
+  private static boolean hasDuplicate(Point[] points) {
     Arrays.sort(points);
     int size = points.length;
     if (size <= 1) {

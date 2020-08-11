@@ -12,24 +12,6 @@ import java.util.List;
  */
 public class FastCollinearPoints {
 
-  private static class MySegment implements Comparable<MySegment> {
-
-    private Point p;
-    private Point q;
-
-    public MySegment(Point p, Point q) {
-      this.p = p;
-      this.q = q;
-    }
-
-    public int compareTo(MySegment o) {
-      if (p.compareTo(o.p) == 0) {
-        return q.compareTo(o.q);
-      }
-      return p.compareTo(o.p);
-    }
-  }
-
   private Point[] points;
   private List<LineSegment> result;
 
@@ -45,7 +27,7 @@ public class FastCollinearPoints {
 
     this.points = points;
 
-    if (BruteCollinearPoints.hasDuplicate(points)) {
+    if (hasDuplicate(points)) {
       throw new IllegalArgumentException("duplicate");
     }
     result = computeSegments();
@@ -96,7 +78,7 @@ public class FastCollinearPoints {
           int len = end - begin;
           // System.out.println(111);
           if (len >= 3) {
-            Point[] again = new Point[len+1];
+            Point[] again = new Point[len + 1];
             // System.out.println(111);
             System.arraycopy(tmpArr, begin, again, 0, len);
             // System.out.println(2222);
@@ -126,6 +108,20 @@ public class FastCollinearPoints {
     }
     // System.out.println(7777);
     return tmp;
+  }
+
+  private static boolean hasDuplicate(Point[] points) {
+    Arrays.sort(points);
+    int size = points.length;
+    if (size <= 1) {
+      return false;
+    }
+    for (int i = 1; i < size; i++) {
+      if (points[i - 1].compareTo(points[i]) == 0) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public int numberOfSegments() {
