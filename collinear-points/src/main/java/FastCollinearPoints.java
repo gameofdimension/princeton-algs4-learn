@@ -12,8 +12,8 @@ import java.util.List;
  */
 public class FastCollinearPoints {
 
-  private Point[] points;
-  private List<LineSegment> result;
+  private final Point[] points;
+  private final List<LineSegment> result;
 
   public FastCollinearPoints(Point[] points) {
     if (points == null) {
@@ -25,7 +25,7 @@ public class FastCollinearPoints {
       }
     }
 
-    this.points = points;
+    this.points = points.clone();
 
     if (hasDuplicate(points)) {
       throw new IllegalArgumentException("duplicate");

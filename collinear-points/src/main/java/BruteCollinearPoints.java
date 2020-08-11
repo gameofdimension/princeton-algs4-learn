@@ -12,8 +12,8 @@ import java.util.List;
  */
 public class BruteCollinearPoints {
 
-  private Point[] points;
-  private List<LineSegment> result;
+  private final Point[] points;
+  private final List<LineSegment> result;
 
   public BruteCollinearPoints(Point[] points) {
     if (points == null) {
@@ -25,7 +25,7 @@ public class BruteCollinearPoints {
       }
     }
 
-    this.points = points;
+    this.points = points.clone();
 
     if (hasDuplicate(this.points)) {
       throw new IllegalArgumentException("duplicate");
@@ -46,8 +46,8 @@ public class BruteCollinearPoints {
         Point q = points[j];
         for (int k = j + 1; k < size; k++) {
           Point r = points[k];
-          for (int l = k + 1; l < size; l++) {
-            Point s = points[l];
+          for (int m = k + 1; m < size; m++) {
+            Point s = points[m];
             double slope1 = p.slopeTo(q);
             double slope2 = p.slopeTo(r);
             double slope3 = p.slopeTo(s);
