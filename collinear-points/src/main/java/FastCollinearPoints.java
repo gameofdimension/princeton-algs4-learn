@@ -55,6 +55,7 @@ public class FastCollinearPoints {
       System.arraycopy(points, 0, tmpArr, 0, points.length);
       final Point origin = points[i];
 
+      // System.out.println("oooooooooooooooooooorigin: "+origin);
       // System.out.println("before sort");
       // for (Point pp : tmpArr) {
       //   System.out.println(pp);
@@ -70,43 +71,50 @@ public class FastCollinearPoints {
       while (end < tmpArr.length) {
         // System.out.println(end);
         double slope2 = origin.slopeTo(tmpArr[end]);
-        // System.out.println(slope1 + ":" + slope2);
-        if (Double.compare(slope1, slope2) == 0) {
-          end += 1;
-        } else {
-          // System.out.println(begin + " vs " + end);
-          int len = end - begin;
-          // System.out.println(111);
-          if (len >= 3) {
-            Point[] again = new Point[len + 1];
-            // System.out.println(111);
-            System.arraycopy(tmpArr, begin, again, 0, len);
-            // System.out.println(2222);
-            again[len] = origin;
-
-            // System.out.println(3333);
-            Arrays.sort(again);
-            // System.out.println(4444);
-            // System.out.println("origin:" + origin);
-            // System.out.println(again[0]);
-
-            // System.out.println();
-            // for (Point pp : again) {
-            //   System.out.println("000:" + pp);
-            // }
-            if (origin.compareTo(again[0]) == 0) {
-              // System.out.println(5555);
-              tmp.add(new LineSegment(again[0], again[len]));
-            }
-            // System.out.println(6666);
-          }
+        // System.out.println(slope1 + ":" + slope2+":"+Double.compare(slope1, slope2));
+        if (Double.compare(slope1, slope2) != 0) {
+          tmp = collectSegments(begin, end, origin, tmpArr, tmp);
           begin = end;
           slope1 = origin.slopeTo(tmpArr[begin]);
-          end += 1;
         }
+        end += 1;
+        // System.out.println();
       }
+      tmp = collectSegments(begin, end, origin, tmpArr, tmp);
     }
     // System.out.println(7777);
+    return tmp;
+  }
+
+
+  private List<LineSegment> collectSegments(int begin, int end, final Point origin, Point[] tmpArr,
+      List<LineSegment> tmp) {
+    // System.out.println(begin + " vs " + end);
+    int len = end - begin;
+    // System.out.println(111);
+    if (len >= 3) {
+      Point[] again = new Point[len + 1];
+      // System.out.println(111);
+      System.arraycopy(tmpArr, begin, again, 0, len);
+      // System.out.println(2222);
+      again[len] = origin;
+
+      // System.out.println(3333);
+      Arrays.sort(again);
+      // System.out.println(4444);
+      // System.out.println("origin:" + origin);
+      // System.out.println(again[0]);
+
+      // System.out.println();
+      // for (Point pp : again) {
+      //   System.out.println("000:" + pp);
+      // }
+      if (origin.compareTo(again[0]) == 0) {
+        // System.out.println(5555);
+        tmp.add(new LineSegment(again[0], again[len]));
+      }
+      // System.out.println(6666);
+    }
     return tmp;
   }
 
