@@ -13,6 +13,7 @@
     <module>percolation</module>
     <module>queues</module>
     <module>collinear-points</module>
+    <module>8puzzle</module>
   </modules>
 
   <dependencies>
