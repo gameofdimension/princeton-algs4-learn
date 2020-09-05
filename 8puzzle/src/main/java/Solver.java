@@ -9,7 +9,7 @@ import java.util.Comparator;
  */
 public class Solver {
 
-  static class SearchNode {
+  private static class SearchNode {
 
     private Board board;
     private SearchNode previous;
