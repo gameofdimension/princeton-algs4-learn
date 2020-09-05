@@ -186,7 +186,6 @@ public class Board {
 
   // a board that is obtained by exchanging any pair of tiles
   public Board twin() {
-
     int r1 = 0, r2 = 0;
     int c1 = 0, c2 = 0;
     int count = 0;
@@ -239,12 +238,22 @@ public class Board {
       StdOut.println(sb.hamming());
       StdOut.println(sb.manhattan());
       StdOut.println(sb.isGoal());
+
+      StdOut.println("---------------");
+      StdOut.println(sb.twin());
+      StdOut.println(sb);
+      StdOut.println("---------------");
+      for (Board neighbor : sb.neighbors()) {
+        StdOut.println(neighbor);
+      }
+      StdOut.println("---------------");
     }
 
     StdOut.println();
     int[][] garr = {{1, 2, 3}, {4, 5, 6}, {7, 8, 0}};
     Board goal = new Board(garr);
     StdOut.println(goal.isGoal());
+
   }
 
 }
