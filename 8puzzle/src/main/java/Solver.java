@@ -59,7 +59,7 @@ public class Solver {
       return node;
     }
     for (Board next : node.board.neighbors()) {
-      if (next.equals(node.previous.board)) {
+      if (node.previous != null && next.equals(node.previous.board)) {
         continue;
       }
       mq.insert(new SearchNode(next, node, node.moves + 1));
