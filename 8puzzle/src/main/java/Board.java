@@ -1,4 +1,6 @@
+import edu.princeton.cs.algs4.Stack;
 import edu.princeton.cs.algs4.StdOut;
+import edu.princeton.cs.algs4.StdRandom;
 
 import java.util.Arrays;
 
@@ -120,14 +122,94 @@ public class Board {
     return true;
   }
 
+  private boolean isLegal(int r, int c) {
+    if (r < 0) {
+      return false;
+    }
+    if (r >= n) {
+      return false;
+    }
+    if (c < 0) {
+      return false;
+    }
+    if (c >= n) {
+      return false;
+    }
+    return true;
+  }
+
+  private int[][] createAndSwap(int candr, int candc, int nr, int nc) {
+    int[][] arr = new int[n][n];
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < n; j++) {
+        arr[i][j] = tiles[i][j];
+      }
+    }
+    arr[nr][nc] = tiles[candr][candc];
+    arr[candr][candc] = tiles[nr][nc];
+    return arr;
+  }
+
   // all neighboring boards
   public Iterable<Board> neighbors() {
-    return null;
+    int candr = nr - 1;
+    int candc = nc;
+
+    Stack<Board> stack = new Stack<Board>();
+    if (isLegal(candr, candc)) {
+      int[][] arr = createAndSwap(candr, candc, nr, nc);
+      stack.push(new Board(arr));
+    }
+
+    candr = nr + 1;
+    candc = nc;
+    if (isLegal(candr, candc)) {
+      int[][] arr = createAndSwap(candr, candc, nr, nc);
+      stack.push(new Board(arr));
+    }
+
+    candr = nr;
+    candc = nc + 1;
+    if (isLegal(candr, candc)) {
+      int[][] arr = createAndSwap(candr, candc, nr, nc);
+      stack.push(new Board(arr));
+    }
+
+    candr = nr;
+    candc = nc - 1;
+    if (isLegal(candr, candc)) {
+      int[][] arr = createAndSwap(candr, candc, nr, nc);
+      stack.push(new Board(arr));
+    }
+    return stack;
   }
 
   // a board that is obtained by exchanging any pair of tiles
   public Board twin() {
-    return null;
+
+    int r1 = 0, r2 = 0;
+    int c1 = 0, c2 = 0;
+    int count = 0;
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < n; j++) {
+        if (tiles[i][j] != 0) {
+          count += 1;
+        }
+        if (count == 1) {
+          r1 = i;
+          c1 = j;
+        } else if (count == 2) {
+          r2 = i;
+          c2 = j;
+          break;
+        }
+      }
+      if (count == 2) {
+        break;
+      }
+    }
+    int[][] arr = createAndSwap(r1, c1, r2, c2);
+    return new Board(arr);
   }
 
   // unit testing (not graded)
