@@ -50,15 +50,16 @@ public class Board {
   // number of tiles out of place
   public int hamming() {
     int sum = 0;
+    int base = n * n;
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < n; j++) {
-        if (tiles[i][j] != i * n + j + 1) {
+        if (tiles[i][j] == 0) {
+          continue;
+        }
+        if (tiles[i][j] % base != (i * n + j + 1) % base) {
           sum += 1;
         }
       }
-    }
-    if (tiles[n - 1][n - 1] != 0) {
-      sum -= 1;
     }
     return sum;
   }
@@ -234,6 +235,7 @@ public class Board {
     StdOut.println();
     int[][] sample = {{8, 1, 3}, {4, 0, 2}, {7, 6, 5}};
     Board sb = new Board(sample);
+    StdOut.println("---------------");
     StdOut.println(sb.hamming());
     StdOut.println(sb.manhattan());
     StdOut.println(sb.isGoal());
@@ -252,6 +254,9 @@ public class Board {
     Board goal = new Board(garr);
     StdOut.println(goal.isGoal());
 
+    int[][] arr5 = {{1, 2, 3}, {4, 5, 6}, {7, 8, 0}};
+    Board hm = new Board(arr5);
+    StdOut.println(hm.hamming());
   }
 
 }

@@ -15,14 +15,14 @@ public class Solver {
     private final Board board;
     private final SearchNode previous;
     private final int moves;
-    private final int hm;
+    // private final int hm;
     private final int mh;
 
     public SearchNode(Board board, SearchNode previous, int moves) {
       this.board = board;
       this.previous = previous;
       this.moves = moves;
-      this.hm = board.hamming();
+      // this.hm = board.hamming();
       this.mh = board.manhattan();
     }
   }
