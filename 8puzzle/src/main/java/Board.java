@@ -11,7 +11,6 @@ import java.util.Arrays;
 public class Board {
 
   private int[][] tiles;
-  private int[][] goalBoard;
   private int n;
 
   private int nr;
@@ -22,7 +21,6 @@ public class Board {
   public Board(int[][] tiles) {
     this.n = tiles.length;
     this.tiles = new int[n][n];
-    this.goalBoard = new int[n][n];
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < n; j++) {
         if (tiles[i][j] == 0) {
@@ -30,10 +28,8 @@ public class Board {
           nc = j;
         }
         this.tiles[i][j] = tiles[i][j];
-        this.goalBoard[i][j] = i * n + j + 1;
       }
     }
-    this.goalBoard[n - 1][n - 1] = 0;
   }
 
   // string representation of this board
@@ -93,9 +89,14 @@ public class Board {
 
   // is this board the goal board?
   public boolean isGoal() {
+    int base = n * n;
     for (int i = 0; i < n; i++) {
-      if (!Arrays.equals(tiles[i], this.goalBoard[i])) {
-        return false;
+      for (int j = 0; j < n; j++) {
+        int act = tiles[i][j];
+        int exp = i * n + j + 1;
+        if (act % base != exp % base) {
+          return false;
+        }
       }
     }
     return true;
