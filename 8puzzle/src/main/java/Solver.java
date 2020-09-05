@@ -1,5 +1,6 @@
 import edu.princeton.cs.algs4.MinPQ;
 import edu.princeton.cs.algs4.Stack;
+import edu.princeton.cs.algs4.StdOut;
 
 import java.util.Comparator;
 
@@ -11,11 +12,11 @@ public class Solver {
 
   private static class SearchNode {
 
-    private Board board;
-    private SearchNode previous;
-    private int moves;
-    private int hm;
-    private int mh;
+    private final Board board;
+    private final SearchNode previous;
+    private final int moves;
+    private final int hm;
+    private final int mh;
 
     public SearchNode(Board board, SearchNode previous, int moves) {
       this.board = board;
@@ -26,12 +27,9 @@ public class Solver {
     }
   }
 
-  private MinPQ<SearchNode> pq;
-  private MinPQ<SearchNode> twinPq;
   private boolean solvable = false;
   private SearchNode goal;
 
-  // find a solution to the initial board (using the A* algorithm)
   public Solver(Board initial) {
     if (initial == null) {
       throw new IllegalArgumentException("null initial");
@@ -44,13 +42,13 @@ public class Solver {
       }
     };
 
-    pq = new MinPQ<SearchNode>(comparator);
+    MinPQ<SearchNode> pq = new MinPQ<SearchNode>(comparator);
     pq.insert(new SearchNode(initial, null, 0));
 
-    twinPq = new MinPQ<SearchNode>(comparator);
+    MinPQ<SearchNode> twinPq = new MinPQ<SearchNode>(comparator);
     twinPq.insert(new SearchNode(initial.twin(), null, 0));
 
-    solve();
+    solve(pq, twinPq);
   }
 
   private static SearchNode explore(MinPQ<SearchNode> mq) {
@@ -67,7 +65,7 @@ public class Solver {
     return null;
   }
 
-  private void solve() {
+  private void solve(MinPQ<SearchNode> pq, MinPQ<SearchNode> twinPq) {
     while (true) {
       SearchNode res = explore(pq);
       if (res != null) {
@@ -113,6 +111,6 @@ public class Solver {
 
   // test client (see below)
   public static void main(String[] args) {
-
+    StdOut.println(args);
   }
 }

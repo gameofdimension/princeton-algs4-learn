@@ -1,8 +1,5 @@
 import edu.princeton.cs.algs4.Stack;
 import edu.princeton.cs.algs4.StdOut;
-import edu.princeton.cs.algs4.StdRandom;
-
-import java.util.Arrays;
 
 /**
  * @author yzq, yzq@leyantech.com
@@ -10,8 +7,8 @@ import java.util.Arrays;
  */
 public class Board {
 
-  private int[][] tiles;
-  private int n;
+  private final int[][] tiles;
+  private final int n;
 
   private int nr;
   private int nc;
@@ -116,8 +113,10 @@ public class Board {
     }
 
     for (int i = 0; i < n; i++) {
-      if (!Arrays.equals(tiles[i], board.tiles[i])) {
-        return false;
+      for (int j = 0; j < n; j++) {
+        if (tiles[i][j] != board.tiles[i][j]) {
+          return false;
+        }
       }
     }
     return true;
@@ -139,15 +138,15 @@ public class Board {
     return true;
   }
 
-  private int[][] createAndSwap(int candr, int candc, int nr, int nc) {
+  private int[][] createAndSwap(int candr, int candc, int nr1, int nc1) {
     int[][] arr = new int[n][n];
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < n; j++) {
         arr[i][j] = tiles[i][j];
       }
     }
-    arr[nr][nc] = tiles[candr][candc];
-    arr[candr][candc] = tiles[nr][nc];
+    arr[nr1][nc1] = tiles[candr][candc];
+    arr[candr][candc] = tiles[nr1][nc1];
     return arr;
   }
 
@@ -233,22 +232,20 @@ public class Board {
     StdOut.println(board1.hamming());
 
     StdOut.println();
-    {
-      int[][] sample = {{8, 1, 3}, {4, 0, 2}, {7, 6, 5}};
-      Board sb = new Board(sample);
-      StdOut.println(sb.hamming());
-      StdOut.println(sb.manhattan());
-      StdOut.println(sb.isGoal());
+    int[][] sample = {{8, 1, 3}, {4, 0, 2}, {7, 6, 5}};
+    Board sb = new Board(sample);
+    StdOut.println(sb.hamming());
+    StdOut.println(sb.manhattan());
+    StdOut.println(sb.isGoal());
 
-      StdOut.println("---------------");
-      StdOut.println(sb.twin());
-      StdOut.println(sb);
-      StdOut.println("---------------");
-      for (Board neighbor : sb.neighbors()) {
-        StdOut.println(neighbor);
-      }
-      StdOut.println("---------------");
+    StdOut.println("---------------");
+    StdOut.println(sb.twin());
+    StdOut.println(sb);
+    StdOut.println("---------------");
+    for (Board neighbor : sb.neighbors()) {
+      StdOut.println(neighbor);
     }
+    StdOut.println("---------------");
 
     StdOut.println();
     int[][] garr = {{1, 2, 3}, {4, 5, 6}, {7, 8, 0}};
