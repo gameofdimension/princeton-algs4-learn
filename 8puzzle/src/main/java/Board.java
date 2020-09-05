@@ -194,20 +194,22 @@ public class Board {
       for (int j = 0; j < n; j++) {
         if (tiles[i][j] != 0) {
           count += 1;
-        }
-        if (count == 1) {
-          r1 = i;
-          c1 = j;
-        } else if (count == 2) {
-          r2 = i;
-          c2 = j;
-          break;
+          if (count == 1) {
+            r1 = i;
+            c1 = j;
+          } else if (count == 2) {
+            r2 = i;
+            c2 = j;
+            break;
+          }
         }
       }
       if (count == 2) {
         break;
       }
     }
+    // StdOut.println("xxxxxxxxxxxxxxxxx");
+    // StdOut.println(r1 + "," + c1 + "," + r2 + "," + c2);
     int[][] arr = createAndSwap(r1, c1, r2, c2);
     return new Board(arr);
   }
@@ -257,6 +259,11 @@ public class Board {
     int[][] arr5 = {{1, 2, 3}, {4, 5, 6}, {7, 8, 0}};
     Board hm = new Board(arr5);
     StdOut.println(hm.hamming());
+
+    StdOut.println("++++++++++++++++");
+    int[][] arr0 = {{1, 0}, {2, 3}};
+    Board board2 = new Board(arr0);
+    StdOut.println(board2.twin());
   }
 
 }
