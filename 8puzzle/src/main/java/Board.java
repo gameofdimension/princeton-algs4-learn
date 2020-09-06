@@ -264,6 +264,16 @@ public class Board {
     int[][] arr0 = {{1, 0}, {2, 3}};
     Board board2 = new Board(arr0);
     StdOut.println(board2.twin());
+
+    double x1 = 0.0, y1 = -0.0;
+    Double a1 = x1, b1 = y1;
+    StdOut.println(x1 == y1);
+    StdOut.println(a1.equals(b1));
+
+    double x2 = Double.NaN, y2 = Double.NaN;
+    Double a2 = x2, b2 = y2;
+    StdOut.println(x2 == y2);
+    StdOut.println(a2.equals(b2));
   }
 
 }
