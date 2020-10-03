@@ -3,3 +3,5 @@
 *.iws
 .DS_Store
 target/
+.idea/
+.lift/
