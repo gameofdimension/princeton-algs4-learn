@@ -71,7 +71,7 @@ public class KdTree {
     }
   }
 
-  void insert(Node node, Point2D p) {
+  private void insert(Node node, Point2D p) {
     if (p.equals(node.self)) {
       throw new IllegalStateException("should not equal");
     }
