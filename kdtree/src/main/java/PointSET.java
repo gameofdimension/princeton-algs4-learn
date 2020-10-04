@@ -66,12 +66,12 @@ public class PointSET {
     if (p == null) {
       throw new IllegalArgumentException("null args");
     }
-    double dist = Double.MAX_VALUE;
+    double dist = Double.POSITIVE_INFINITY;
     Point2D res = null;
     for (Point2D point2D : point2DSET) {
-      if (point2D.distanceTo(p) < dist) {
+      if (point2D.distanceSquaredTo(p) < dist) {
         res = point2D;
-        dist = point2D.distanceTo(p);
+        dist = point2D.distanceSquaredTo(p);
       }
     }
     return res;

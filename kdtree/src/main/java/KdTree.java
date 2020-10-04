@@ -18,7 +18,7 @@ public class KdTree {
     private final Point2D self;
     private Node left;
     private Node right;
-    private RectHV rectHV;
+    private final RectHV rectHV;
 
     public Node(RectHV rectHV, boolean xdim, Point2D self) {
       this.xdim = xdim;
@@ -182,16 +182,16 @@ public class KdTree {
 
   private Point2D nearest(Point2D closest, Node node, Point2D point2D) {
 
-    if (node.self.distanceTo(point2D) < closest.distanceTo(point2D)) {
+    if (node.self.distanceSquaredTo(point2D) < closest.distanceSquaredTo(point2D)) {
       closest = node.self;
     }
     if (node.left != null) {
-      if (node.left.rectHV.distanceTo(point2D) < closest.distanceTo(point2D)) {
+      if (node.left.rectHV.distanceSquaredTo(point2D) < closest.distanceSquaredTo(point2D)) {
         closest = nearest(closest, node.left, point2D);
       }
     }
     if (node.right != null) {
-      if (node.right.rectHV.distanceTo(point2D) < closest.distanceTo(point2D)) {
+      if (node.right.rectHV.distanceSquaredTo(point2D) < closest.distanceSquaredTo(point2D)) {
         closest = nearest(closest, node.right, point2D);
       }
     }
