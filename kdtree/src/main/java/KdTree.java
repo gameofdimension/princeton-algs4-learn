@@ -201,15 +201,16 @@ public class KdTree {
           closest = nearest(closest, node.left, point2D);
         }
       }
-    }
-    if (node.left != null) {
-      if (node.left.rectHV.distanceSquaredTo(point2D) < closest.distanceSquaredTo(point2D)) {
-        closest = nearest(closest, node.left, point2D);
+    } else {
+      if (node.left != null) {
+        if (node.left.rectHV.distanceSquaredTo(point2D) < closest.distanceSquaredTo(point2D)) {
+          closest = nearest(closest, node.left, point2D);
+        }
       }
-    }
-    if (node.right != null) {
-      if (node.right.rectHV.distanceSquaredTo(point2D) < closest.distanceSquaredTo(point2D)) {
-        closest = nearest(closest, node.right, point2D);
+      if (node.right != null) {
+        if (node.right.rectHV.distanceSquaredTo(point2D) < closest.distanceSquaredTo(point2D)) {
+          closest = nearest(closest, node.right, point2D);
+        }
       }
     }
     return closest;
